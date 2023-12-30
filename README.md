@@ -15,12 +15,14 @@ Danny has provided you with a sample of his overall customer data due to privacy
 
 Danny has shared with you 3 key datasets for this case study:
 
+
 sales
 menu
 members
 You can inspect the entity relationship diagram and example data below.
 
 Entity Relationship Diagram
+![image](https://github.com/SameeraKota/8-week-SQL-Challenge/assets/151723407/9131bd1b-f770-4127-ad94-4167cad64ef3)
 
 Example Datasets
 All datasets exist within the dannys_diner database schema - be sure to include this reference within your SQL scripts as you start exploring the data and answering the case study questions.
