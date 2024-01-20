@@ -228,5 +228,61 @@ from customer_orders
 group by day_of_week
 order by day_of_week;
 
+## RUNNER AND CUSTOMER EXPERIENCE ##
 
+#1 How many runners signed up for each 1 week period? (i.e. week starts 2021-01-01)
+select
+week(registration_date) as week_number,
+count(runner_id) as signedup_runners
+from runners 
+group by week_number
+order by week_number ;
+
+#2. What was the average time in minutes it took for each runner to arrive at the Pizza Runner HQ to pickup the order?
+select
+runner_id,
+round(avg(time_to_sec(pickup_time/60)),2) as avg_time_minutes
+from runner_orders 
+where pickup_time is not null 
+group by runner_id;
+
+#3. Is there any relationship between the number of pizzas and how long the order takes to prepare?
+select
+count(c.order_id) as pizza_count,
+round(avg(time_to_sec(c.order_time) - time_to_sec(ro.pickup_time))/60, 2) as preparation_time
+from customer_orders c 
+join runner_orders ro on c.order_id = ro.order_id
+where ro.cancellation is null
+group by c.pizza_id;
+
+#4. What was the average distance travelled for each customer?
+select 
+c.customer_id,
+round(avg(ro.distance),2) as avg_distance
+from customer_orders c 
+join runner_orders ro on c.order_id = ro.order_id
+group by c.customer_id;
+
+#5. What was the difference between the longest and shortest delivery times for all orders?
+select
+(max(time_to_sec(c.order_time) - time_to_sec(ro.pickup_time)) - min(time_to_sec(c.order_time) - time_to_sec(ro.pickup_time)))/60 as delivery_difference_minutes
+from customer_orders c 
+join runner_orders ro on c.order_id = ro.order_id
+where ro.cancellation is null;
+
+#6. What was the average speed for each runner for each delivery and do you notice any trend for these values?
+select
+  ro.runner_id,
+  avg(ro.distance / (TIME_TO_SEC(ro.pickup_time) - TIME_TO_SEC(co.order_time))/3600) as avg_speed_kph
+from customer_orders co
+join runner_orders ro on co.order_id = ro.order_id
+where ro.cancellation is null
+group by ro.runner_id;
+
+#7. What is the successful delivery percentage for each runner?
+select 
+runner_id,
+count(case when cancellation is null then 2 end)/ count(*) * 100 as delivery_percentage
+from runner_orders
+group by runner_id;
   
