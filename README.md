@@ -1,4 +1,4 @@
-# SQL CHALLENGE
+# SQL PROJECTS
 
 Actively engaged in a series of SQL challenges to enhance my query writing skills and mastering foundational SQL concepts.
 Completed a comprehensive set of exercises covering various aspects of SQL, including 
